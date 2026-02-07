@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.6/.schema/devbox.schema.json",
+  "packages": {
+    "go":            "1.25.2",
+    "gcc":           "latest",
+    "go-task":       "latest",
+    "gci":           "0.13.6",
+    "gofumpt":       "0.7.0",
+    "golangci-lint": "2.8.0",
+    "gopls":         "latest",
+    "delve":         "latest",
+    "pkg-config":       "latest",
+    "mesa":             "latest",
+    "libglvnd":         "latest",
+    "xorg.libX11":      "latest",
+    "xorg.libXcursor":  "latest",
+    "xorg.libXrandr":   "latest",
+    "xorg.libXinerama": "latest",
+    "xorg.libXi":       "latest",
+    "xorg.libXxf86vm":  "latest",
+    "xorg.xorgproto":   "latest",
+    "libxkbcommon":     "latest",
+    "glfw":             "latest",
+    "glm":              "latest"
+  },
+  "env": {
+    "CGO_ENABLED": "1"
+  },
+  "shell": {
+    "init_hook": [
+      "export GOROOT=$(go env GOROOT)",
+      "source ./scripts/setup-cgo.sh"
+    ],
+    "scripts": {}
+  }
+}

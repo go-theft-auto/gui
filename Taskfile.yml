@@ -1,0 +1,41 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  PACKAGE_NAME:
+    sh: grep -m 1 "^module" go.mod | awk '{print $2}'
+
+tasks:
+  fmt:
+    desc: Format code
+    cmds:
+      - gci write -s standard -s default -s "prefix(github.com/go-theft-auto)" -s "prefix({{.PACKAGE_NAME}})" --skip-generated . backend/opengl/
+      - gofumpt -l -w .
+    aliases: [format]
+
+  lint:
+    desc: Run linters
+    deps: [fmt]
+    cmds:
+      - golangci-lint run
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+
+  build:
+    desc: Verify the package compiles
+    cmds:
+      - go build ./...
+
+  deps:
+    desc: Tidy and vendor dependencies
+    cmds:
+      - go mod tidy
+      - go mod vendor
+
+  default:
+    cmds:
+      - task -l
