@@ -227,7 +227,7 @@ func (dl *DrawList) AddText(x, y float32, text string, color uint32, fontScale f
 	for i, r := range text {
 		// Map character to texture coordinates
 		// Assumes a 16x6 grid of 8x8 characters for ASCII 32-127
-		char := r
+		char := unicodeFallback(r)
 		if char < 32 || char > 127 {
 			char = '?'
 		}
@@ -252,6 +252,34 @@ func (dl *DrawList) AddText(x, y float32, text string, color uint32, fontScale f
 		)
 
 		dl.addIndices(vtxIdx, vtxIdx+1, vtxIdx+2, vtxIdx, vtxIdx+2, vtxIdx+3)
+	}
+}
+
+// unicodeFallback maps common Unicode symbols to ASCII equivalents
+// for the built-in bitmap font (ASCII 32-127 only).
+func unicodeFallback(r rune) rune {
+	if r >= 32 && r <= 127 {
+		return r
+	}
+	switch r {
+	case '►', '▶', '▸', '→', '⯈':
+		return '>'
+	case '◄', '◀', '◂', '←', '⯇':
+		return '<'
+	case '▼', '▾', '↓':
+		return 'v'
+	case '▲', '▴', '↑':
+		return '^'
+	case '●', '•', '◆':
+		return '*'
+	case '✓', '✔':
+		return '+'
+	case '✗', '✘':
+		return 'x'
+	case '—', '–':
+		return '-'
+	default:
+		return r
 	}
 }
 

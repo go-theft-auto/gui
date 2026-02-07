@@ -36,6 +36,11 @@ tasks:
       - go mod tidy
       - go mod vendor
 
+  screenshots:
+    desc: Generate widget screenshots for documentation
+    cmds:
+      - go run ./doc/gen/
+
   default:
     cmds:
       - task -l
